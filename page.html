@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Gardening App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            /* Apply background image */
+            background-image: url('background.jpg'); /* Make sure rolling_fields.jpg is in the same folder or provide correct path */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Do not repeat the image */
+            background-attachment: fixed; /* Keep background fixed during scroll */
+            color: #333;
+            line-height: 1.6; /* Increased line height back */
+        }
+
+        /* Glass effect helper remains the same */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            color: white;
+            text-align: center;
+            padding: 2em 1em; /* Increased padding */
+            margin-bottom: 2em; /* Increased margin */
+            /* Glass effect styles */
+            background: rgba(76, 175, 80, 0.5); /* Adjusted opacity */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 0;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Increased shadow */
+        }
+
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em; /* Increased font size */
+            letter-spacing: 1px; /* Increased letter spacing */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.4); /* Adjusted shadow */
+        }
+
+        header p {
+            font-size: 1.2em; /* Increased font size */
+            margin-top: 0.5em; /* Increased margin */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+        }
+
+        .container {
+            max-width: 960px; /* Increased max width */
+            margin: 0 auto 2em auto; /* Adjusted margin */
+            padding: 0 20px; /* Increased padding */
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-bottom: 3em; /* Increased margin */
+        }
+
+        .feature {
+            padding: 1.5em; /* Increased padding */
+            width: 300px; /* Increased width */
+            margin: 1em; /* Increased margin */
+            transition: transform 0.3s ease, background 0.3s ease;
+            text-align: center;
+            color: #222;
+            /* Glass effect styles */
+            background: rgba(255, 255, 255, 0.3); /* Adjusted opacity */
+            backdrop-filter: blur(5px); /* Kept blur relatively low */
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 8px; /* Increased radius */
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Increased shadow */
+        }
+
+
+        .feature:hover {
+            transform: translateY(-5px) scale(1.02); /* Increased hover effect */
+            background: rgba(255, 255, 255, 0.45); /* Adjusted hover background */
+        }
+
+        .feature h3 {
+            color: #388E3C;
+            margin-top: 0;
+            margin-bottom: 0.6em; /* Adjusted margin bottom */
+            font-size: 1.5em; /* Increased font size */
+        }
+
+        .feature p {
+            font-size: 1em; /* Increased font size */
+        }
+
+        .dashboard-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 1em 2em; /* Increased padding */
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.2em; /* Increased font size */
+            margin: 2em auto; /* Increased margin */
+            cursor: pointer;
+            border-radius: 5px; /* Increased radius */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Adjusted shadow */
+        }
+
+        .dashboard-button:hover {
+            background-color: #388E3C;
+            transform: scale(1.05); /* Increased hover scale */
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5em 0; /* Increased padding */
+            color: #eee;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Adjusted shadow */
+            font-size: 1em; /* Increased footer font size */
+            /* Glass effect styles */
+             background: rgba(0, 0, 0, 0.4); /* Adjusted opacity */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 0;
+            border: none;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1); /* Increased shadow */
+            margin-top: 3em; /* Increased margin */
+        }
+
+        /* Responsive Design Adjustments (Reverted) */
+        @media (max-width: 768px) {
+             .container {
+                 max-width: 95%; /* Keep responsive container */
+             }
+            .feature {
+                width: 80%; /* Back to single column focus */
+                max-width: 350px; /* Add max-width back */
+                margin: 1em auto; /* Center items */
+            }
+
+             header {
+                padding: 1.5em 1em;
+            }
+
+            header h1 {
+                font-size: 2em; /* Adjusted responsive size */
+            }
+
+            header p {
+                font-size: 1.1em; /* Adjusted responsive size */
+            }
+        }
+         @media (max-width: 480px) {
+             .feature {
+                width: 90%; /* Slightly wider on very small screens */
+                 padding: 1.2em; /* Adjusted padding */
+            }
+             header h1 {
+                font-size: 1.8em;
+            }
+
+            header p {
+                font-size: 1em;
+            }
+            .dashboard-button {
+                 font-size: 1.1em;
+                 padding: 0.9em 1.8em; /* Adjusted padding */
+            }
+             footer {
+                padding: 1.2em 0; /* Adjusted padding */
+                font-size: 0.95em; /* Adjusted font size */
+             }
+         }
+    </style>
+</head>
+<body>
+
+    <header> <!-- Header gets its own adjusted glass effect -->
+        <h1>Welcome to Flora Fusion</h1>
+        <p>Your intelligent assistant for a thriving garden.</p>
+    </header>
+
+    <div class="container">
+        <section class="features">
+            <!-- Feature divs get the glass effect -->
+            <div class="feature glass-effect">
+                <h3>Smart Monitoring</h3>
+                <p>Real-time sensor data on soil moisture, temperature, and sunlight levels. Know exactly what your plants need, anytime, anywhere.</p>
+            </div>
+
+            <div class="feature glass-effect">
+                <h3>Automated Irrigation</h3>
+                <p>Intelligent watering schedules based on sensor data and weather forecasts. Saves water and ensures optimal growth.</p>
+            </div>
+
+            <div class="feature glass-effect">
+                <h3>Plant Identification</h3>
+                <p>Identify plant species using image recognition. Get tailored care tips for each plant in your garden.</p>
+            </div>
+
+            <div class="feature glass-effect">
+                <h3>Customizable Plans</h3>
+                <p>Create custom garden plans with recommended plant pairings and optimal layouts for sunlight exposure.</p>
+            </div>
+
+            <div class="feature glass-effect">
+                <h3>Growth Tracking</h3>
+                <p>Track plant growth over time with photos and measurements. See your garden flourish with visual progress.</p>
+            </div>
+
+            <div class="feature glass-effect">
+                <h3>Alerts and Notifications</h3>
+                <p>Receive alerts for low soil moisture, temperature extremes, and potential pest or disease problems.</p>
+            </div>
+        </section>
+
+        <section class="download-section" style="text-align: center;">
+            <a href="dashboard.html" class="dashboard-button">Go to Dashboard →</a>
+        </section>
+    </div>
+
+    <footer> <!-- Footer gets its own adjusted glass effect -->
+        <p>© 2025 Smart Garden App. All rights reserved.</p>
+    </footer>
+
+    <script>
+        console.log("Smart Garden App - Ready to Grow!");
+    </script>
+</body>
+</html>

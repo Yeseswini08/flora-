@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login/Registration</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      background: url('background.jpg') no-repeat center center/cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(2px);
+    }
+
+    .container {
+      width: 800px;
+      height: 500px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      display: flex;
+      overflow: hidden;
+    }
+
+    .login-container,
+    .registration-container {
+      width: 400px;
+      padding: 30px;
+      box-sizing: border-box;
+      transition: transform 0.5s ease-in-out;
+      color: #fff;
+    }
+
+    .login-container h2,
+    .registration-container h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border: 1px solid #4CAF50;
+    }
+
+    .btn {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      background-color: #388E3C;
+    }
+
+    .social-login {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .social-login a {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      margin: 0 5px;
+      border-radius: 50%;
+      background-color: #eee;
+      text-align: center;
+      line-height: 30px;
+      color: #555;
+      font-size: 16px;
+      text-decoration: none;
+    }
+
+    .aside {
+      width: 400px;
+      background-color: rgba(76, 175, 80, 0.8);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-radius: 0 20px 20px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .aside h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .aside p {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .aside button {
+      background-color: #fff;
+      color: #4CAF50;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .aside button:hover {
+      background-color: #ddd;
+      color: #333;
+    }
+
+    .registration-container {
+      display: none;
+    }
+
+    .slide-left .login-container {
+      transform: translateX(-100%);
+    }
+
+    .slide-left .registration-container {
+      display: block;
+    }
+
+    .input-with-icon {
+      position: relative;
+    }
+
+    .input-with-icon input {
+      padding-right: 30px;
+    }
+
+    .input-with-icon i {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #fff;
+    }
+  </style>
+  <!-- Firebase Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDMUPxx-sluwhtN6c0XwL6V_8u3EUTy6iI",
+      authDomain: "flora-fusion-940d5.firebaseapp.com",
+      projectId: "flora-fusion-940d5",
+      storageBucket: "flora-fusion-940d5.appspot.com",
+      messagingSenderId: "860463249601",
+      appId: "1:860463249601:web:6a752ec8de1f234fe43c40"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Toggle login/register
+    const container = document.getElementById('container');
+    const toggleBtn = document.getElementById('toggleBtn');
+    const asideHeader = document.getElementById('asideHeader');
+    const asideText = document.getElementById('asideText');
+
+    toggleBtn.addEventListener('click', () => {
+      container.classList.toggle('slide-left');
+      if (container.classList.contains('slide-left')) {
+        asideHeader.textContent = "Welcome Back!";
+        asideText.textContent = "Already have an account?";
+        toggleBtn.textContent = "Login";
+      } else {
+        asideHeader.textContent = "Hello, Welcome!";
+        asideText.textContent = "Don't have an account?";
+        toggleBtn.textContent = "Register";
+      }
+    });
+
+    // Login Handler
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginUsername').value;
+      const password = document.getElementById('loginPassword').value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          window.location.href = "page.html";
+        })
+        .catch((error) => {
+          alert("Login failed: " + error.message);
+        });
+    });
+
+    // Register and save to Firestore
+    document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('regUsername').value;
+      const email = document.getElementById('regEmail').value;
+      const password = document.getElementById('regPassword').value;
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        await setDoc(doc(db, "users", user.uid), {
+          username: username,
+          email: email
+        });
+
+        console.log("User registered and saved to Firestore.");
+        window.location.href = "page.html";
+      } catch (error) {
+        alert("Registration failed: " + error.message);
+      }
+    });
+</script>
+</head>
+<body>
+
+  <div class="container" id="container">
+    <div class="login-container">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <div class="form-group input-with-icon">
+          <input type="email" id="loginUsername" placeholder="Email" required>
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="form-group input-with-icon">
+          <input type="password" id="loginPassword" placeholder="Password" required>
+          <i class="fas fa-lock"></i>
+        </div>
+        <div class="form-group">
+          <a href="#" style="text-decoration: none; color: #C8E6C9; display: block; text-align: right; margin-bottom:10px; font-size: 0.8em;">Forgot password?</a>
+          <button type="submit" class="btn">Login</button>
+        </div>
+      </form>
+      <div class="social-login">
+        <p>or login with social platforms</p>
+        <a href="#"><i class="fab fa-google"></i></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+
+    <div class="registration-container">
+      <h2>Registration</h2>
+      <form id="registrationForm">
+        <div class="form-group input-with-icon">
+          <input type="text" id="regUsername" placeholder="Username" required>
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="form-group input-with-icon">
+          <input type="email" id="regEmail" placeholder="Email" required>
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="form-group input-with-icon">
+          <input type="password" id="regPassword" placeholder="Password" required>
+          <i class="fas fa-lock"></i>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn">Register</button>
+        </div>
+      </form>
+      <div class="social-login">
+        <p>or register with social platforms</p>
+        <a href="#"><i class="fab fa-google"></i></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+
+    <div class="aside">
+      <h1 id="asideHeader">Hello, Welcome!</h1>
+      <p id="asideText">Don't have an account?</p>
+      <button id="toggleBtn">Register</button>
+    </div>
+  </div>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" /
+
+</body>
+</html>
